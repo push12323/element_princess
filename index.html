@@ -1,0 +1,158 @@
+<!DOCTYPE html/>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<script type="text/javascript" src="http://cdn.gameplayer.io/api/js/game.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<!--Librarys-->
+<script src="libs/easeljs-0.6.0.min.js" ></script>
+<script src="libs/preloadjs-0.3.0.min.js" ></script>
+<script src="libs/tweenjs-0.4.0.min.js" ></script>
+<script src="libs/soundjs-0.5.0.min.js" ></script>
+
+<!-- JS Files -->
+<script src="js/SpriteSheetDefinitions.js"></script>
+<script src="js/Preloader.js"></script>
+<script src="js/SplashScreen.js"></script>
+<script src="js/HowToPlay.js"></script>
+<script src="js/WelcomeScreen.js"></script>
+<script src="js/GameScreen.js"></script>
+<script src="js/ResultScreen.js"></script>
+<script src="js/FinalScreen.js"></script>
+<script src="js/ShowDate.js"></script>
+<script src="js/Calender.js"></script>
+<script src="js/SnowManager.js"></script>
+<script src="js/GlowManager.js"></script>
+<script src="js/FlowerAimation.js"></script>
+<script src="js/FireAimation.js"></script>
+<script src="js/CloudAimation.js"></script>
+<script src="js/BubbleAnimation.js"></script>	
+    
+<!--CSS-->
+<style type="text/css" media="screen">
+#gameCanvas{
+
+}
+body
+{
+	padding:0;
+	margin:0;
+	overflow:hidden;
+}
+#sound-btn
+{
+	position:absolute;
+	top:10px;
+	left:10px;
+	display:none;
+}
+
+#gamediv
+{
+	margin:0;
+	position:relative;
+}
+
+#api-logo
+{
+	position:absolute;
+	left:-20;
+	top:540;
+	z-index:1;
+}
+@font-face 
+{
+   font-family: 'Times New Roman';
+   src: url('fonts/times-webfont.eot');
+   src: url('fonts/times-webfont.eot?#iefix') format('embedded-opentype'),
+	    url('fonts/times-webfont.woff') format('woff'),
+		url('fonts/times-webfont.ttf') format('truetype'),
+		url('fonts/times-webfont.svg#Tektonpro') format('svg'); 
+}
+@font-face 
+{
+   font-family: 'Terminator';
+   src: url('fonts/Terminat.ttf');
+}
+</style>
+<script type="text/javascript">
+
+	var apiLogo;
+	var apiLink;
+	
+	function openLogoLink()
+	{
+		
+		window.open(apiLink,'_blank');
+	}
+	
+	function openAddToSiteLink()
+	{
+		window.open('http://publishers.spilgames.com/','_blank');
+	}
+	
+	function openMoreGamesLink()
+	{
+		window.open(apiLink,'_blank');
+	}
+	
+	function showAdd(_isShow) 
+	{
+		GameAPI.GameBreak.request(fnPause, fnResume);
+	}
+	
+	function fnPause()
+	{
+		console.log("Game Paused");
+	}
+	
+	
+	function fnResume()
+	{
+		console.log("Game Resume");
+	}
+	
+	GameAPI.loadAPI(function(API) {
+	// The API is ready for use.
+	// It can be accessed by using the `API` variable
+	//
+	// Example: API.Branding.getLogo();
+		apiLink = API.Branding.getLogo().url;
+		apiLogo = API.Branding.getLogo().image;
+		var img = document.createElement('img');
+		img.src = apiLogo;
+		img.id = "api-logo";
+		document.getElementById('gamediv').appendChild(img);
+		
+		$("#api-logo").on("mouseover",function()
+		{
+			document.body.style.cursor='pointer';
+			playSound("button_over");
+		});
+		$("#api-logo").on("mouseout",function()
+		{
+			document.body.style.cursor='default';
+		});
+		$("#api-logo").on("click",function()
+		{
+			openLogoLink();
+		});
+		var canvas = document.getElementById('gameCanvas');
+		canvas.onselectstart = function () { return false; }
+		showAdd();
+	});
+	
+</script>
+<title>Princess Game</title>
+
+<head/>
+
+<body onload="preload()">
+	<div id="gamediv">       
+        <div id="sound-btn"><img src="assets/sound_btn.png" id="sound-icon" alt="Sound Button" onClick="muteAudio()" /></div>
+        <canvas width="800" height="600" id="gameCanvas"></canvas>
+    </div>
+</body>
+</html>
